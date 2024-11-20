@@ -2,14 +2,16 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"mygo/db"
+	"mygo/router"
 )
 
 func main() {
 	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "hello world",
-		})
-	})
-	r.Run(":8080")
+	db.InitDb()
+	router.InitRouter(r)
+	err := r.Run("localhost:8080")
+	if err != nil {
+		panic("服务启动失败")
+	}
 }
